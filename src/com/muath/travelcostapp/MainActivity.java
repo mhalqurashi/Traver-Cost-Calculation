@@ -42,6 +42,9 @@ public class MainActivity extends Activity {
 		updateCost ();
 		distanceEditText.addTextChangedListener(
 				distanceEditTextWatcher);
+		mPGSeekBar.setOnSeekBarChangeListener(
+				mPGSeekSeekBarListener);
+		
 	}
 	
 	private void updateCost () {
@@ -62,12 +65,45 @@ public class MainActivity extends Activity {
 			}
 			distanceDisplatTextView.setText
 			(String.valueOf(distance));
+			updateCost ();
 		}
 		@Override
 		public void afterTextChanged (Editable s)  {}
 		@Override
 		public void beforeTextChanged (CharSequence s, int start, int count, 
 				int after) {}
+	};
+	
+	private OnSeekBarChangeListener gasPriceSeekBarListener = 
+			new OnSeekBarChangeListener () {
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			gasPrice = (progress / 100) + 1; 
+			//The added one is to set the minimum value to 1. 
+			updateCost ();
+		}
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {}
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {	
+		}
+	};
+	
+	private OnSeekBarChangeListener mPGSeekSeekBarListener = 
+			new OnSeekBarChangeListener () {
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			milesPerGallon = progress + 10; 
+			//The added one is to set the minimum value to 1. 
+			updateCost ();
+		}
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {}
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {	
+		}
 	};
 
 }
