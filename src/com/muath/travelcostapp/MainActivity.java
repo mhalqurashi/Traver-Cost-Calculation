@@ -5,12 +5,20 @@ import android.os.Bundle;
 
 import java.text.NumberFormat;
 
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.TextView;
 import android.widget.SeekBar;
 import android.widget.EditText;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.net.Uri;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.content.Intent;
+
+
 
 public class MainActivity extends Activity {
 	private static final NumberFormat currencyFormat = NumberFormat
@@ -26,6 +34,7 @@ public class MainActivity extends Activity {
 	private SeekBar gasPriceSeekBar;
 	private TextView costDisplayTextView;
 	private TextView distanceDisplatTextView;
+	private ImageButton carButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,8 @@ public class MainActivity extends Activity {
 				distanceEditTextWatcher);
 		mPGSeekBar.setOnSeekBarChangeListener(
 				mPGSeekSeekBarListener);
+		gasPriceSeekBar.setOnSeekBarChangeListener(gasPriceSeekBarListener);
+		carButton.setOnClickListener(carButtonListener);
 		
 	}
 	
@@ -105,5 +116,18 @@ public class MainActivity extends Activity {
 		public void onStartTrackingTouch(SeekBar seekBar) {	
 		}
 	};
+	
+	private OnClickListener carButtonListener = new OnClickListener() 
+	   {
+	      @Override
+	      public void onClick(View v) 
+	      {
+	    	  String imageUrl = 
+	    			  Uri.encode("http://en.wikipedia.org/wiki/Bugatti");
+	    	  Intent webIntent = 
+	    			  new Intent(Intent.ACTION_VIEW, Uri.parse(imageUrl));
+	         startActivity(webIntent);
+	      } // end method onClick
+	   }; // end OnClickListener anonymous inner class
 
 }
