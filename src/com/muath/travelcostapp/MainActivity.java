@@ -1,11 +1,18 @@
+/**
+File name: MainAcitivty.java
+Author: Muath Alqurashi
+Email Address: mhalqurashi@suffolk.edu
+Last day of modification: Mar 23, 2015
+Description: This application calculates the cost of travel using a car. 
+The inputs are:
+MPG for the car, gas prices per gallon, and the distance traveled. 
+The output is the cost of the trip.
+*/
 package com.muath.travelcostapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-
 import java.text.NumberFormat;
-
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.TextView;
@@ -52,7 +59,6 @@ public class MainActivity extends Activity {
 				(TextView) findViewById(R.id.gasPriceDisplayTextView); 
 		mPGDisplayTextView.setText(currencyFormat.format(gasPrice));
 		gasPriceDisplayTextView.setText(currencyFormat.format(gasPrice));
-		
 		updateCost ();
 		distanceEditText.addTextChangedListener(
 				distanceEditTextWatcher);
@@ -93,6 +99,10 @@ public class MainActivity extends Activity {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
+			/*the division by hundred is to get a fractional numbers from the 
+			seek bar progress. The added one is to set the minimum to one 
+			dollar.
+			 */
 			gasPrice = (progress / 100.0) + 1.0;
 			gasPriceDisplayTextView.setText(currencyFormat.format(gasPrice));
 			//The added one is to set the minimum value to 1. 
@@ -110,6 +120,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
+			//The added ten is to set the minimum to ten. 
 			milesPerGallon = progress + 10;
 			mPGDisplayTextView.setText(String.valueOf(milesPerGallon));
 			//The added one is to set the minimum value to 1. 

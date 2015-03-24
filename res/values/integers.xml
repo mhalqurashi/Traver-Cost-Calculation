@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="maxNumberLength">11</integer>
+    <integer name="maxNumberLength">8</integer>
 </resources>
