@@ -33,7 +33,8 @@ public class MainActivity extends Activity {
 	private SeekBar mPGSeekBar;
 	private SeekBar gasPriceSeekBar;
 	private TextView costDisplayTextView;
-	private TextView distanceDisplatTextView;
+	private TextView mPGDisplayTextView;
+	private TextView gasPriceDisplayTextView;
 	private ImageButton carButton;
 	
 	@Override
@@ -41,21 +42,25 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		distanceEditText = (EditText) findViewById(R.id.distanceEditText);
-		distanceDisplatTextView = 
-				(TextView) findViewById(R.id.distanceDisplayTextView);
 		mPGSeekBar = (SeekBar) findViewById(R.id.mPGSeekBar);
 		gasPriceSeekBar = (SeekBar) findViewById(R.id.gasPriceSeekBar);
 		costDisplayTextView = 
 				(TextView) findViewById(R.id.coastDisplayTextView);
-		distanceDisplatTextView.setText(String.valueOf(distance));
+		carButton = (ImageButton) findViewById(R.id.carButton);
+		mPGDisplayTextView = (TextView) findViewById(R.id.mPGDisplayTextView);
+		gasPriceDisplayTextView = 
+				(TextView) findViewById(R.id.gasPriceDisplayTextView); 
+		mPGDisplayTextView.setText(currencyFormat.format(gasPrice));
+		gasPriceDisplayTextView.setText(currencyFormat.format(gasPrice));
+		
 		updateCost ();
 		distanceEditText.addTextChangedListener(
 				distanceEditTextWatcher);
 		mPGSeekBar.setOnSeekBarChangeListener(
 				mPGSeekSeekBarListener);
 		gasPriceSeekBar.setOnSeekBarChangeListener(gasPriceSeekBarListener);
+		mPGDisplayTextView.setText(String.valueOf(milesPerGallon));
 		carButton.setOnClickListener(carButtonListener);
-		
 	}
 	
 	private void updateCost () {
@@ -69,13 +74,11 @@ public class MainActivity extends Activity {
 		public void onTextChanged (CharSequence s, int start, 
 				int before, int count) {
 			try {
-				distance = Double.parseDouble(s.toString()) / 100;
+				distance = Double.parseDouble(s.toString());
 			}
 			catch (NumberFormatException e) {
 				distance = 0.0;
 			}
-			distanceDisplatTextView.setText
-			(String.valueOf(distance));
 			updateCost ();
 		}
 		@Override
@@ -90,7 +93,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-			gasPrice = (progress / 100) + 1; 
+			gasPrice = (progress / 100.0) + 1.0;
+			gasPriceDisplayTextView.setText(currencyFormat.format(gasPrice));
 			//The added one is to set the minimum value to 1. 
 			updateCost ();
 		}
@@ -106,7 +110,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-			milesPerGallon = progress + 10; 
+			milesPerGallon = progress + 10;
+			mPGDisplayTextView.setText(String.valueOf(milesPerGallon));
 			//The added one is to set the minimum value to 1. 
 			updateCost ();
 		}
@@ -117,13 +122,13 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-	private OnClickListener carButtonListener = new OnClickListener() 
+	public OnClickListener carButtonListener = new OnClickListener() 
 	   {
 	      @Override
 	      public void onClick(View v) 
 	      {
 	    	  String imageUrl = 
-	    			  Uri.encode("http://en.wikipedia.org/wiki/Bugatti");
+	    			  "http://en.wikipedia.org/wiki/Bugatti";
 	    	  Intent webIntent = 
 	    			  new Intent(Intent.ACTION_VIEW, Uri.parse(imageUrl));
 	         startActivity(webIntent);
